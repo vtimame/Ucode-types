@@ -4,7 +4,8 @@
   "description": "TypeScript declarations for ucode (OpenWrt scripting language)",
   "types": "./types/index.d.ts",
   "files": [
-    "types/"
+    "types/",
+    "README.md"
   ],
   "keywords": [
     "ucode",

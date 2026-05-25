@@ -24,13 +24,23 @@ declare module "resolv" {
   }
 
   interface QueryOptions {
+    /** Record type: `"A"`, `"AAAA"`, `"CNAME"`, `"MX"`, `"NS"`, `"PTR"`, `"SOA"`, `"SRV"`, `"TXT"`, `"ANY"`. */
     type?: string | number;
-    nameservers?: string[];
+    /** Nameserver address(es) to query. */
+    nameserver?: string | string[];
+    /** Query timeout in milliseconds. */
     timeout?: number;
+    /** Number of retry attempts. */
     retries?: number;
+    /** Maximum EDNS payload size. */
+    edns_maxsize?: number;
+    /** Return TXT records as arrays of strings. */
+    txt_as_array?: boolean;
   }
 
+  /** Perform DNS queries. Pass a single domain or array of domains. */
   export function query(domain: string | string[], options?: QueryOptions): DNSResponse | DNSResponse[] | null;
+  /** Query the last DNS resolver error description. */
   export function error(): string | null;
 
   export const RR_A: number;

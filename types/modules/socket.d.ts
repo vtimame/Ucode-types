@@ -17,36 +17,58 @@ declare module "socket" {
   }
 
   interface SocketHandle {
+    /** Return the underlying file descriptor number. */
     fileno(): number;
-    connect(address: SockAddr): boolean;
-    bind(address: SockAddr): boolean;
-    listen(backlog?: number): boolean;
+    /** Connect to a remote address. */
+    connect(address: SockAddr): true | null;
+    /** Bind the socket to a local address. */
+    bind(address: SockAddr): true | null;
+    /** Start listening for incoming connections. */
+    listen(backlog?: number): true | null;
+    /** Accept an incoming connection. Returns a new socket handle. */
     accept(): SocketHandle | null;
-    send(data: string, flags?: number): number;
-    sendto(data: string, address: SockAddr, flags?: number): number;
-    recv(length: number, flags?: number): string | null;
-    recvfrom(length: number, flags?: number): { data: string; address: SockAddr } | null;
-    shutdown(how?: number): boolean;
-    close(): boolean;
-    setsockopt(level: number, option: number, value: any): boolean;
-    getsockopt(level: number, option: number): any;
-    getpeername(): SockAddr | null;
-    getsockname(): SockAddr | null;
-    setblocking(blocking: boolean): boolean;
+    /** Send data. Optionally specify flags and/or destination address. Returns bytes sent. */
+    send(data: string, flags?: number, address?: SockAddr): number | null;
+    /** Receive data from the socket. */
+    recv(length?: number, flags?: number, address?: SockAddr): string | null;
+    /** Shut down part of a socket connection. */
+    shutdown(how?: number): true | null;
+    /** Close the socket. */
+    close(): true | null;
+    /** Set a socket option. */
+    setopt(level: number, option: number, value: any): true | null;
+    /** Get a socket option value. */
+    getopt(level: number, option: number): any;
+    /** Get the remote address of a connected socket. */
+    peername(): SockAddr | null;
+    /** Get the local address of the socket. */
+    sockname(): SockAddr | null;
+    /** Query the last socket error. */
     error(): string | null;
   }
 
-  export function create(domain: number, type: number, protocol?: number): SocketHandle | null;
-  export function pair(type: number): [SocketHandle, SocketHandle] | null;
+  /** Create a new socket. Defaults to `AF_INET`, `SOCK_STREAM`. */
+  export function create(domain?: number, type?: number, protocol?: number): SocketHandle | null;
+  /** Create a connected pair of sockets. */
+  export function pair(type?: number): [SocketHandle, SocketHandle] | null;
+  /** Wrap an existing file descriptor as a socket handle. */
   export function open(fd: number): SocketHandle | null;
-  export function connect(host: string, service: string | number, hints?: Partial<AddrInfo>, timeout?: number): SocketHandle | null;
-  export function listen(host: string, service: string | number, hints?: Partial<AddrInfo>, backlog?: number, reuseaddr?: boolean): SocketHandle | null;
-  export function addrinfo(hostname: string, service?: string | number, hints?: Partial<AddrInfo>): AddrInfo[] | null;
-  export function nameinfo(address: SockAddr, flags?: number): { host: string; service: string } | null;
+  /** High-level connect: resolve host/service, then connect. */
+  export function connect(host: string, service?: string | number, hints?: Partial<AddrInfo>, timeout?: number): SocketHandle;
+  /** High-level listen: resolve host/service, bind and listen. */
+  export function listen(host: string, service?: string | number, hints?: Partial<AddrInfo>, backlog?: number, reuseaddr?: boolean): SocketHandle;
+  /** Parse an address into a SocketAddress object. */
   export function sockaddr(address: any): SockAddr | null;
-  export function poll(timeout: number, ...sockets: Array<[SocketHandle, number]>): number;
+  /** Reverse DNS lookup. Returns `{hostname, service}`. */
+  export function nameinfo(address: SockAddr, flags?: number): { hostname: string; service: string } | null;
+  /** DNS/service resolution. Returns array of address info objects. */
+  export function addrinfo(hostname: string, service?: string | number, hints?: Partial<AddrInfo>): AddrInfo[] | null;
+  /** Poll multiple sockets for events. Returns event results. */
+  export function poll(timeout: number, ...sockets: Array<[SocketHandle, number]>): any[] | null;
+  /** Query the last socket error. Pass `true` for numeric code. */
   export function error(numeric?: boolean): string | number | null;
-  export function strerror(code: number): string;
+  /** Get the error description for a numeric error code. */
+  export function strerror(code: number): string | null;
 
   export const AF_UNSPEC: number;
   export const AF_UNIX: number;

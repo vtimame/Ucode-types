@@ -1,14 +1,18 @@
 declare module "nl80211" {
   interface NL80211Listener {
+    /** Close the event listener. */
     close(): void;
   }
 
+  /** Send an nl80211 netlink request. Returns response data or `null`. */
   export function request(cmd: number, flags: number, payload?: object): any;
+  /** Wait for specific wireless events with an optional timeout. */
   export function waitfor(events: object, timeout?: number): any;
+  /** Register an event listener for nl80211 wireless events. */
   export function listener(callback: (msg: any) => void, commands?: number[], groups?: string[]): NL80211Listener | null;
+  /** Query the last nl80211 error description. */
   export function error(): string | null;
 
-  // Commands (partial list of common ones)
   export const NL80211_CMD_GET_WIPHY: number;
   export const NL80211_CMD_SET_WIPHY: number;
   export const NL80211_CMD_NEW_WIPHY: number;
@@ -42,7 +46,6 @@ declare module "nl80211" {
   export const NL80211_CMD_DEAUTHENTICATE: number;
   export const NL80211_CMD_DISASSOCIATE: number;
 
-  // Interface types
   export const NL80211_IFTYPE_UNSPECIFIED: number;
   export const NL80211_IFTYPE_ADHOC: number;
   export const NL80211_IFTYPE_STATION: number;
