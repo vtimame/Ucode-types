@@ -1,0 +1,24 @@
+{
+  "name": "@vtima.me/ucode-types",
+  "version": "0.1.0",
+  "description": "TypeScript declarations for ucode (OpenWrt scripting language)",
+  "types": "./types/index.d.ts",
+  "files": [
+    "types/"
+  ],
+  "keywords": [
+    "ucode",
+    "openwrt",
+    "typescript",
+    "types",
+    "typings"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vtimame/Ucode-types"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

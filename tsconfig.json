@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "fs": ["./types/modules/fs"],
+      "math": ["./types/modules/math"],
+      "ubus": ["./types/modules/ubus"],
+      "uci": ["./types/modules/uci"],
+      "uloop": ["./types/modules/uloop"],
+      "log": ["./types/modules/log"],
+      "struct": ["./types/modules/struct"],
+      "nl80211": ["./types/modules/nl80211"],
+      "rtnl": ["./types/modules/rtnl"],
+      "resolv": ["./types/modules/resolv"],
+      "digest": ["./types/modules/digest"],
+      "zlib": ["./types/modules/zlib"],
+      "debug": ["./types/modules/debug"],
+      "socket": ["./types/modules/socket"],
+      "io": ["./types/modules/io"]
+    }
+  },
+  "include": ["types/**/*.d.ts", "src/**/*.js"],
+  "exclude": ["node_modules"]
+}
