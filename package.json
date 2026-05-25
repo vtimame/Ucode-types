@@ -1,6 +1,6 @@
 {
   "name": "@vtima.me/ucode-types",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "TypeScript declarations for ucode (OpenWrt scripting language)",
   "types": "./types/index.d.ts",
   "files": [
